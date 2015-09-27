@@ -1,0 +1,15 @@
+<root>
+    <item name='com.parse.FindCallback'>
+        <annotation name='org.jetbrains.annotations.NotNull' />
+    </item>
+    <item name='com.parse.ParseException'>
+        <annotation name='org.jetbrains.annotations.NotNull' />
+    </item>
+    <item name='com.parse.ParseObject'>
+        <annotation name='org.jetbrains.annotations.NotNull' />
+        <annotation name='java.lang.annotation.Deprecated' />
+    </item>
+    <item name='com.parse.ParseQuery'>
+        <annotation name='org.jetbrains.annotations.NotNull' />
+    </item>
+</root>
