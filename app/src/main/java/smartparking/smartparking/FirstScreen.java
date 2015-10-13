@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,16 +18,16 @@ import com.parse.ParseObject;
 
 
 public class FirstScreen extends Activity {
-    private Button findParking,releaseParking,saveParking;
     double latitude, longitude;
     String longiStr, latiStr;
+    private Button findParking,releaseParking,saveParking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 // Enable Local Datastore.
         Parse.enableLocalDatastore(this);
 
-        Parse.initialize(this, "<parseKey1>", "parseKey2");
+        Parse.initialize(this, "klpklpmZUYYtPoxDNP9TdEAbllMW1jvdAl922KDPH02", "JUJUtb9s5hA6ZxaITMpUGEYwP7Bu4ifW2GGMhK9m0f");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_screen);
         findParking = (Button)(findViewById(R.id.findParking));
