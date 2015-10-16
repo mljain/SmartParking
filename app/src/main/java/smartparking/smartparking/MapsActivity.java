@@ -79,7 +79,7 @@ public class MapsActivity extends FragmentActivity {
                                 .position(new LatLng(lati, longi)).icon(BitmapDescriptorFactory.defaultMarker(Rand))
                                 .title(mediObject.getObjectId().toString())
                 );
-               mMap.setInfoWindowAdapter(new BalloonAdapter(getLayoutInflater()));
+               //mMap.setInfoWindowAdapter(new BalloonAdapter(getLayoutInflater()));
 
 
             }

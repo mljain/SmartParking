@@ -44,18 +44,11 @@ public class FirstScreen extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-// Enable Local Datastore.
-       // Parse.enableLocalDatastore(this);
-
+        Parse.enableLocalDatastore(this);
         Parse.initialize(this, "laNKGqUU9V89ZskAkBxy2CS6RYBBFMddbYjcqqYg", "KnDKFc57s86ICzvT3vyGZcBd8jQwUvhcHZDGZ891");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_screen);
         findParking = (Button)(findViewById(R.id.findParking));
-        releaseParking = (Button)(findViewById(R.id.releaseParking));
-        saveParking = (Button)(findViewById(R.id.releaseParking));
-        //ParseObject testObject = new ParseObject("TestObject");
-       // testObject.put("foo", "bar");
-       // testObject.saveInBackground();
         findParking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +63,7 @@ public class FirstScreen extends Activity {
 
         // Get the name of the best provider
         String provider = locationManager.getBestProvider(criteria, true);
-/*
+
         // Get Current Location
         Location myLocation = locationManager.getLastKnownLocation(provider);
         // Get latitude of the current location
@@ -79,41 +72,8 @@ public class FirstScreen extends Activity {
 
         // Get longitude of the current location
         longitude = myLocation.getLongitude();
-         longiStr = String.valueOf(longitude);
-//          ParseObject testObject = new ParseObject("TestObject");
-//        testObject.put("andrey", "gal");
-//        testObject.saveInBackground();
-        releaseParking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseObject testObject = new ParseObject("AvailableParking");
-                testObject.put("Longitude", longiStr);
-                testObject.put("Latitude", latiStr);
-                testObject.saveInBackground();
-                Toast.makeText(getApplicationContext(), latitude+"", Toast.LENGTH_LONG).show();
-//                Intent releaseParkingActivity = new Intent(FirstScreen.this, ReleaseParking.class);
-//                startActivity(releaseParkingActivity);
-            }
-        });
-//        testObject.put("foo", "bar");
-//        testObject.saveInBackground();
+        longiStr = String.valueOf(longitude);
 
-
-//        ParseObject testObject = new ParseObject("TestObject");
-//        testObject.put(latitude +"", longitude+"");
-//        testObject.saveInBackground();
-
-
-//        saveParking.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ParseObject testObject = new ParseObject("TestObject");
-//                testObject.put(latitude +"", longitude+"");
-//                testObject.saveInBackground();
-//                Toast.makeText(getApplicationContext(), "Parking freed", Toast.LENGTH_LONG).show();
-//            }
-//        });
-*/
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
         if (mNfcAdapter != null) {
