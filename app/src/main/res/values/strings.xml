@@ -12,5 +12,8 @@
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
     <string name="google_maps_key">AIzaSyAb4pbgus0QnZgZxkqpRwlcTeOwYRXZOKk</string>
+    <string name="title_activity_ble1">BLEActivity1</string>
+    <string name="title_activity_balloon_adapter">BalloonAdapter</string>
+    <string name="title_activity_ble">BleActivity</string>
 
 </resources>

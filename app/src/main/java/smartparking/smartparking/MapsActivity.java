@@ -19,6 +19,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -48,6 +49,10 @@ public class MapsActivity extends FragmentActivity {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 Intent releaseParkingActivity = new Intent(MapsActivity.this, ParkingMarkerActivity.class);
+                releaseParkingActivity.putExtra("position",marker.getPosition());
+                releaseParkingActivity.putExtra("title",marker.getTitle());
+                releaseParkingActivity.putExtra("id",marker.getId());
+                releaseParkingActivity.putExtra("snipped",marker.getSnippet());
                 startActivity(releaseParkingActivity);
                 return false;
             }
@@ -69,9 +74,14 @@ public class MapsActivity extends FragmentActivity {
                 double lati = Double.parseDouble(Latitude);
                     Log.d("score", Longitude);
                     Log.d("score", Latitude);
-
                 float Rand = (float) (Math.random() * (360));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(lati, longi)).icon(BitmapDescriptorFactory.defaultMarker(Rand)));
+                mMap.addMarker(new MarkerOptions().draggable(true)
+                                .position(new LatLng(lati, longi)).icon(BitmapDescriptorFactory.defaultMarker(Rand))
+                                .title(mediObject.getObjectId().toString())
+                );
+               mMap.setInfoWindowAdapter(new BalloonAdapter(getLayoutInflater()));
+
+
             }
         };
 
@@ -169,6 +179,8 @@ public class MapsActivity extends FragmentActivity {
 
         // set map type
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+       mMap.setBuildingsEnabled(true);
+        mMap.setIndoorEnabled(true);
 
         // Get latitude of the current location
         double latitude = myLocation.getLatitude();
@@ -192,9 +204,9 @@ public class MapsActivity extends FragmentActivity {
         mMap.animateCamera(yourLocation);
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(myCoordinates)      // Sets the center of the map to LatLng (refer to previous snippet)
-                .zoom(0)                   // Sets the zoom
+                .zoom(17)                   // Sets the zoom
                 .bearing(90)                // Sets the orientation of the camera to east
-                .tilt(30)                   // Sets the tilt of the camera to 30 degrees
+                .tilt(45)                   // Sets the tilt of the camera to 30 degrees
                 .build();                   // Creates a CameraPosition from the builder
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
       //  for (int i = 0; i < yourArrayList.size(); i++) {
