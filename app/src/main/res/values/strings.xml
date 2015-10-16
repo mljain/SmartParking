@@ -3,7 +3,7 @@
 
     <string name="app_name">SmartParking</string>
     <string name="title_activity_maps">Map</string>
-    <string name="title_activity_first_screen">FirstScreen</string>
+    <string name="title_activity_first_screen">Smart Parking</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_release_parking">ReleaseParking</string>
@@ -15,5 +15,6 @@
     <string name="title_activity_ble1">BLEActivity1</string>
     <string name="title_activity_balloon_adapter">BalloonAdapter</string>
     <string name="title_activity_ble">BleActivity</string>
+    <string name="title_activity_learn_parking">LearnParkingActivity</string>
 
 </resources>

@@ -19,8 +19,12 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-feature android:name="android.hardware.nfc" android:required="true"/>
-    <uses-permission android:name="android.permission.NFC"/>
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.NFC" />
 
     <application
         android:allowBackup="true"
@@ -43,9 +47,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="text/plain"/>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
         <activity
@@ -58,7 +64,10 @@
         </activity>
         <activity
             android:name=".ParkingMarkerActivity"
-            android:label="@string/title_activity_parking_marker" >
+            android:label="@string/title_activity_parking_marker" ></activity>
+        <activity
+            android:name=".LearnParkingActivity"
+            android:label="@string/title_activity_learn_parking">
         </activity>
     </application>
 
