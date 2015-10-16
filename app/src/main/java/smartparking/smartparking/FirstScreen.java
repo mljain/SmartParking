@@ -45,7 +45,7 @@ public class FirstScreen extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "laNKGqUU9V89ZskAkBxy2CS6RYBBFMddbYjcqqYg", "KnDKFc57s86ICzvT3vyGZcBd8jQwUvhcHZDGZ891");
+        Parse.initialize(this, "", "");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_screen);
         findParking = (Button)(findViewById(R.id.findParking));
