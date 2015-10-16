@@ -11,7 +11,6 @@ import android.location.LocationManager;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
-import android.nfc.Tag;
 import android.nfc.tech.NfcF;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -20,7 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.ImageButton;
 
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -36,6 +35,7 @@ public class FirstScreen extends Activity {
     double latitude, longitude;
     String longiStr, latiStr;
     private Button findParking,releaseParking,saveParking;
+    private ImageButton fpimgButton;
 
     private NfcAdapter mNfcAdapter;
     private PendingIntent mPendingIntent;
@@ -56,6 +56,17 @@ public class FirstScreen extends Activity {
                 startActivity(findParkingActivity);
             }
         });
+
+        fpimgButton = (ImageButton) (findViewById(R.id.findParkingImageButton));
+        fpimgButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent findParkingActivity = new Intent(FirstScreen.this, MapsActivity.class);
+                startActivity(findParkingActivity);
+            }
+        });
+
+
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         // Create a criteria object to retrieve provider
@@ -67,12 +78,14 @@ public class FirstScreen extends Activity {
         // Get Current Location
         Location myLocation = locationManager.getLastKnownLocation(provider);
         // Get latitude of the current location
-         latitude = myLocation.getLatitude();
-        latiStr = String.valueOf(latitude);
+        if (myLocation != null) {
+            latitude = myLocation.getLatitude();
+            latiStr = String.valueOf(latitude);
 
-        // Get longitude of the current location
-        longitude = myLocation.getLongitude();
-        longiStr = String.valueOf(longitude);
+            // Get longitude of the current location
+            longitude = myLocation.getLongitude();
+            longiStr = String.valueOf(longitude);
+        }
 
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
@@ -102,6 +115,10 @@ public class FirstScreen extends Activity {
             onNewIntent(first_intent);
     }
 
+    public void learnParking(View v) {
+        Intent learnParkingActivity = new Intent(FirstScreen.this, LearnParkingActivity.class);
+        startActivity(learnParkingActivity);
+    }
     @Override
     public void onNewIntent(Intent intent) {
         String nfc_data="";
