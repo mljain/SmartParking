@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -45,10 +46,14 @@ public class FirstScreen extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Parse.enableLocalDatastore(this);
+        // Enable Local Datastore.
+       // Parse.enableLocalDatastore(this);
         Parse.initialize(this, "", "");
+        ParseInstallation.getCurrentInstallation().saveInBackground();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_screen);
         findParking = (Button)(findViewById(R.id.findParking));
+        releaseParking=(Button)(findViewById(R.id.releaseParking));
         findParking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
