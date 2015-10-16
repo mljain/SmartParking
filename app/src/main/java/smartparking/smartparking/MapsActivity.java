@@ -75,12 +75,16 @@ public class MapsActivity extends FragmentActivity {
                     Log.d("score", Longitude);
                     Log.d("score", Latitude);
                 float Rand = (float) (Math.random() * (360));
-                mMap.addMarker(new MarkerOptions().draggable(true)
-                                .position(new LatLng(lati, longi)).icon(BitmapDescriptorFactory.defaultMarker(Rand))
-                                .title(mediObject.getObjectId().toString())
-                );
-               //mMap.setInfoWindowAdapter(new BalloonAdapter(getLayoutInflater()));
-
+                if(mediObject.get("status").toString().equals("free")) {
+                    mMap.addMarker(new MarkerOptions().draggable(true)
+                            .position(new LatLng(lati, longi)).icon(BitmapDescriptorFactory.defaultMarker(120.0f))
+                            .title(mediObject.getObjectId().toString()));
+                    //mMap.setInfoWindowAdapter(new BalloonAdapter(getLayoutInflater()));
+                }else{
+                    mMap.addMarker(new MarkerOptions().draggable(true)
+                            .position(new LatLng(lati, longi)).icon(BitmapDescriptorFactory.defaultMarker(0.0f))
+                            .title(mediObject.getObjectId().toString()));
+                }
 
             }
         };
