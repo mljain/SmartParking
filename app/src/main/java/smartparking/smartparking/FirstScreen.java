@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
@@ -45,12 +46,12 @@ public class FirstScreen extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         Parse.enableLocalDatastore(this);
         // Enable Local Datastore.
        // Parse.enableLocalDatastore(this);
         Parse.initialize(this, "", "");
-        ParseInstallation.getCurrentInstallation().saveInBackground();
-        super.onCreate(savedInstanceState);
+       // ParseInstallation.getCurrentInstallation().saveInBackground();
         setContentView(R.layout.activity_first_screen);
         findParking = (Button)(findViewById(R.id.findParking));
         releaseParking=(Button)(findViewById(R.id.releaseParking));
@@ -102,7 +103,7 @@ public class FirstScreen extends Activity {
 
         // create an intent with tag data and deliver to this activity
         mPendingIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT), 0);
+                new Intent(this, getClass()), 0);
 
         // set an intent filter for all MIME data
         IntentFilter ndefIntent = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
@@ -168,11 +169,12 @@ public class FirstScreen extends Activity {
                     // Log.i(" po.getObjectId()", po.getObjectId());
                     //Log.i(" po.nfc_data()", nfc_data);
 
+                    Log.i(" po", po.getObjectId());
                     if( po.getObjectId().equalsIgnoreCase(nfc_data)){
-                         Log.i(" po", po.toString());
                         Intent releaseParkingActivity = new Intent(FirstScreen.this, ParkingMarkerActivity.class);
-                        Bundle extras = new Bundle();
-                        extras.putSerializable("parkingSpot", po.toString());
+                        releaseParkingActivity.putExtra("id", nfc_data);
+                        releaseParkingActivity.putExtra("position", new LatLng(latitude, longitude));
+                        releaseParkingActivity.putExtra("title",nfc_data);
                         startActivity(releaseParkingActivity);
                         break;
                     }
