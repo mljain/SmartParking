@@ -51,8 +51,9 @@ public class ParkingMarkerActivity extends Activity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if(obj.get("status").toString()=="free"){
+        if(obj.get("status").toString().equals("booked")){
             releaseParking.setEnabled(false);
+            text1.setText("This parking is not available");
         }
         RatingBar rate_bar =  (RatingBar)findViewById(R.id.ratingBar1);
         rate_bar.setRating(4.0f);
