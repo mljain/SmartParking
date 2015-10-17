@@ -45,6 +45,10 @@
         android:layout_alignRight="@+id/findParking"
         android:layout_below="@+id/imageView2"
         android:layout_marginTop="72dp"
+        android:maxHeight="176dp"
+        android:maxWidth="176dp"
+        android:minHeight="176dp"
+        android:minWidth="176dp"
         android:src="@drawable/parkpin" />
 
     <ImageButton
@@ -54,6 +58,10 @@
         android:layout_alignEnd="@+id/imageView2"
         android:layout_alignRight="@+id/imageView2"
         android:layout_alignTop="@+id/findParkingImageButton"
+        android:maxHeight="176dp"
+        android:maxWidth="176dp"
+        android:minHeight="176dp"
+        android:minWidth="176dp"
         android:onClick="learnParking"
         android:src="@drawable/learnparking" />
 

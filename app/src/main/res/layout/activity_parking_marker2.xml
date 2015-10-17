@@ -1,61 +1,64 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/accent_material_dark"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="smartparking.smartparking.FirstScreen"
-    android:background="@color/accent_material_dark">
+    tools:context="smartparking.smartparking.FirstScreen">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save Parkin"
         android:id="@+id/saveParkingSlot"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Release Parking"
-        android:id="@+id/releaseParking"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentStart="true"
+        android:text="Save Parking" />
+
+    <Button
+        android:id="@+id/releaseParking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:text="Release Parking" />
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:src="@drawable/parking"
         android:layout_above="@+id/saveParkingSlot"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="200dp" />
+        android:layout_marginBottom="200dp"
+        android:src="@drawable/parking" />
 
     <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/ratingBar1"
-        android:layout_marginBottom="47dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/saveParkingSlot"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="47dp" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="$10"
         android:id="@+id/price"
-        android:layout_above="@+id/ratingBar1"
-        android:layout_toEndOf="@+id/saveParkingSlot" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="This parking spot is available "
+        android:layout_above="@+id/ratingBar1"
+        android:layout_toEndOf="@+id/saveParkingSlot"
+        android:text="$10"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
         android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/price"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:text="This parking spot is available "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>
