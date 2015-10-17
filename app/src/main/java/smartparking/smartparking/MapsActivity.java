@@ -198,7 +198,7 @@ public class MapsActivity extends FragmentActivity {
 
         // Zoom in the Google Map
         mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title("You are here!").snippet("Consider yourself located"));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
         LatLng myCoordinates = new LatLng(latitude, longitude);
         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(myCoordinates, 12);
         mMap.animateCamera(yourLocation);

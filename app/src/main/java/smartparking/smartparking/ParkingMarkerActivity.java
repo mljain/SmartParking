@@ -39,7 +39,7 @@ public class ParkingMarkerActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         saveParking = (Button) (findViewById(R.id.saveParkingSlot));
         releaseParking = (Button) (findViewById(R.id.releaseParking));
-
+        text1= (TextView) (findViewById(R.id.textView));
 
         latLng = (LatLng) getIntent().getExtras().get("position");
         id = getIntent().getExtras().getString("id");
@@ -52,14 +52,14 @@ public class ParkingMarkerActivity extends Activity {
             e.printStackTrace();
         }
         if(obj.get("status").toString().equals("booked")){
-            releaseParking.setEnabled(false);
+            saveParking.setEnabled(false);
             text1.setText("This parking is not available");
         }
         RatingBar rate_bar =  (RatingBar)findViewById(R.id.ratingBar1);
         rate_bar.setRating(4.0f);
         price = (TextView) (findViewById(R.id.price));
         price.setText(obj.get("Cost").toString());
-        text1= (TextView) (findViewById(R.id.textView));
+
 
         saveParking.setOnClickListener(new View.OnClickListener() {
             @Override
