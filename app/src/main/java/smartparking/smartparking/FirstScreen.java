@@ -50,6 +50,7 @@ public class FirstScreen extends Activity {
         Parse.enableLocalDatastore(this);
         // Enable Local Datastore.
        // Parse.enableLocalDatastore(this);
+
         Parse.initialize(this, "", "");
        // ParseInstallation.getCurrentInstallation().saveInBackground();
         setContentView(R.layout.activity_first_screen);
