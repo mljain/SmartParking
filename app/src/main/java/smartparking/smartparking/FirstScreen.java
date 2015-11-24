@@ -27,10 +27,17 @@ import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.ubhave.sensormanager.ESException;
+import com.ubhave.sensormanager.ESSensorManager;
+import com.ubhave.sensormanager.SensorDataListener;
+import com.ubhave.sensormanager.data.pull.AccelerometerData;
+import com.ubhave.sensormanager.sensors.SensorUtils;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
+import smartparking.smartparking.sensors.ExampleSensorListener;
 
 
 public class FirstScreen extends Activity {
@@ -48,9 +55,11 @@ public class FirstScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Parse.enableLocalDatastore(this);
+        //Parse.enableLocalDatastore(this);
         // Enable Local Datastore.
-       // Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "", "");
+        // Parse.enableLocalDatastore(this);
+        Parse.initialize(this, "T4vmGgGrUNaxjyfT36nnkbVGE2hNc1JsEOwltLLa", "dm8dlVWqKGZVfIfMrqJB7hozH0ToNkSrO84C9I8c");
+        ParseInstallation.getCurrentInstallation().saveInBackground();
        // ParseInstallation.getCurrentInstallation().saveInBackground();
         setContentView(R.layout.activity_first_screen);
         findParking = (Button)(findViewById(R.id.findParking));
@@ -119,6 +128,15 @@ public class FirstScreen extends Activity {
         Intent first_intent = getIntent();
         if(first_intent != null && first_intent.getAction().equals("android.nfc.action.NDEF_DISCOVERED"))
             onNewIntent(first_intent);
+//set all the  here.....
+        try {
+            ESSensorManager sm = ESSensorManager.getSensorManager(this.getApplicationContext());
+           // AccelerometerData d = (AccelerometerData) sm.getDataFromSensor(SensorUtils.SENSOR_TYPE_ACCELEROMETER);
+            SensorDataListener listener = new ExampleSensorListener();
+            int id = sm.subscribeToSensorData(SensorUtils.SENSOR_TYPE_ACCELEROMETER, listener);
+        } catch (ESException e) {
+            e.printStackTrace();
+        }
     }
 
     public void learnParking(View v) {
@@ -174,7 +192,7 @@ public class FirstScreen extends Activity {
                         Intent releaseParkingActivity = new Intent(FirstScreen.this, ParkingMarkerActivity.class);
                         releaseParkingActivity.putExtra("id", nfc_data);
                         releaseParkingActivity.putExtra("position", new LatLng(latitude, longitude));
-                        releaseParkingActivity.putExtra("title",nfc_data);
+                        releaseParkingActivity.putExtra("title", nfc_data);
                         startActivity(releaseParkingActivity);
                         break;
                     }
