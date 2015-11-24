@@ -14,7 +14,7 @@ public class ExampleSensorListener implements SensorDataListener
     {
         // This method will be called by the ES Sensor Manager when it has new data to publish
         // and lets you decide what actions to take with that data.
-        //Log.d("Received Sensor Data:::",data.toString());
+        Log.d("Received Sensor Data:::",data.toString());
 
     }
 
