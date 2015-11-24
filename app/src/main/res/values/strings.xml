@@ -16,5 +16,8 @@
     <string name="title_activity_balloon_adapter">BalloonAdapter</string>
     <string name="title_activity_ble">BleActivity</string>
     <string name="title_activity_learn_parking">LearnParkingActivity</string>
+    <string name="title_activity_emotion_main">EmotionMainActivity</string>
+    <string name="search">search</string>
+    <string name="flush">flush</string>
 
 </resources>
