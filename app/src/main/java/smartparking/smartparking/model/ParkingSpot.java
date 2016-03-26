@@ -5,15 +5,15 @@ package smartparking.smartparking.model;
  */
 public class ParkingSpot {
     private double latitude, longitude, price;
-    private int quantiy;
-    private String name;
+    private int quantity;
+    private String name, imageUrl, priceDesc;
 
 
     public  ParkingSpot(){
 
     }
 
-    public void setLatitude(int latitude){
+    public void setLatitude(double latitude){
         this.latitude = latitude;
     }
 
@@ -21,7 +21,7 @@ public class ParkingSpot {
         return latitude;
     }
 
-    public void setLongitude(int longitude){
+    public void setLongitude(double longitude){
         this.longitude = longitude;
     }
 
@@ -29,12 +29,12 @@ public class ParkingSpot {
         return  longitude;
     }
 
-    public int getQuantiy() {
-        return quantiy;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setQuantiy(int quantiy) {
-        this.quantiy = quantiy;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public double getPrice() {
@@ -51,5 +51,22 @@ public class ParkingSpot {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPriceDesc() {
+        return priceDesc;
+    }
+
+    public void setPriceDesc(String priceDesc) {
+        this.priceDesc = priceDesc;
+    }
+
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

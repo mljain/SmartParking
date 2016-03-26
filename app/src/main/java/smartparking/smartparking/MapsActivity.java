@@ -1,5 +1,6 @@
 package smartparking.smartparking;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Criteria;
@@ -9,6 +10,12 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,11 +30,18 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.util.HashMap;
 import java.util.List;
+
+import smartparking.smartparking.model.ParkingSpot;
+import smartparking.smartparking.util.ImageDownloader;
 
 public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private Dialog parkingDialog;
+    private ImageDownloader imagedl;
+    private HashMap<String, ParkingSpot> parkingList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,16 +51,31 @@ public class MapsActivity extends FragmentActivity {
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
         zoomOnMyLocation();
+        parkingList = new HashMap<>();
+        imagedl = new ImageDownloader();
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Intent releaseParkingActivity = new Intent(MapsActivity.this, ParkingMarkerActivity.class);
+                ParkingSpot spot = new ParkingSpot();
+            /*    Intent releaseParkingActivity = new Intent(MapsActivity.this, ParkingMarkerActivity.class);
                 releaseParkingActivity.putExtra("position",marker.getPosition());
                 releaseParkingActivity.putExtra("title",marker.getTitle());
                 releaseParkingActivity.putExtra("id",marker.getId());
                 releaseParkingActivity.putExtra("snipped",marker.getSnippet());
                 startActivity(releaseParkingActivity);
+
+
+
+                spot.setLatitude(marker.getPosition().latitude);
+                spot.setLongitude(marker.getPosition().longitude);
+                spot.setName("San Jose Parking Garage");
+                spot.setImageUrl("http://www.co.berks.pa.us/Dept/Courts/Jury/PublishingImages/7th_Penn_Parking_Lot.jpg");
+                spot.setQuantity(14);
+                spot.setPrice(14.00);
+                */
+                spot = parkingList.get(marker.getTitle());
+                showDialog(MapsActivity.this, spot);
                 return false;
             }
         });
@@ -65,13 +94,21 @@ public class MapsActivity extends FragmentActivity {
                 String Latitude = mediObject.get("Latitude").toString();
                 double longi = Double.parseDouble(Longitude);
                 double lati = Double.parseDouble(Latitude);
+                ParkingSpot sp = new ParkingSpot();
+                sp.setName(mediObject.get("Name").toString());
+                sp.setLatitude(lati);
+                sp.setLongitude(longi);
+                sp.setQuantity(Integer.parseInt(mediObject.get("quantity").toString()));
+                sp.setPriceDesc(mediObject.get("Cost").toString());
+                parkingList.put(sp.getName(), sp);
                     Log.d("score", Longitude);
                     Log.d("score", Latitude);
                 float Rand = (float) (Math.random() * (360));
                 if(mediObject.get("status").toString().equals("free")) {
                     mMap.addMarker(new MarkerOptions().draggable(true)
                             .position(new LatLng(lati, longi)).icon(BitmapDescriptorFactory.defaultMarker(120.0f))
-                            .title(mediObject.getObjectId().toString()));
+                            .title(sp.getName()));
+
                     //mMap.setInfoWindowAdapter(new BalloonAdapter(getLayoutInflater()));
                 }else{
                     mMap.addMarker(new MarkerOptions().draggable(true)
@@ -82,6 +119,43 @@ public class MapsActivity extends FragmentActivity {
             }
         }
 
+    }
+
+    public void showDialog(Context context, ParkingSpot spot){
+        parkingDialog = new Dialog(context);
+        TextView parkingName, parkingQuantity, parkingPrice;
+        ImageView parkingImage;
+        Button parkingButton;
+        String imageURL;
+
+        //set layout view
+        parkingDialog.setContentView(R.layout.parking_spot_view);
+        //parkingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        //Initialize your widgets from layout here
+        parkingName = (TextView) parkingDialog.findViewById(R.id.parking_name);
+        parkingQuantity = (TextView) parkingDialog.findViewById(R.id.parking_quantity);
+        parkingPrice = (TextView) parkingDialog.findViewById(R.id.parking_price);
+        parkingImage = (ImageView) parkingDialog.findViewById(R.id.parking_image);
+        parkingButton = (Button) parkingDialog.findViewById(R.id.book_button);
+
+        //set variables
+        parkingName.setText(spot.getName());
+        parkingQuantity.setText("Spots Available: " + spot.getQuantity());
+        parkingPrice.setText("Price: $" + spot.getPrice());
+        imageURL = spot.getImageUrl();
+
+        if(spot.getImageUrl() != null && !spot.getImageUrl().equalsIgnoreCase(""))
+            imagedl.download(spot.getImageUrl(), parkingImage);
+
+        parkingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MapsActivity.this, "Spot Booked",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        parkingDialog.show();
     }
 
     private void zoomOnMyLocation() {

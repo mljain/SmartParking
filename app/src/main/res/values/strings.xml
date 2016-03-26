@@ -19,5 +19,6 @@
     <string name="title_activity_emotion_main">EmotionMainActivity</string>
     <string name="search">search</string>
     <string name="flush">flush</string>
+    <string name="book_parking">Book Parking</string>
 
 </resources>
