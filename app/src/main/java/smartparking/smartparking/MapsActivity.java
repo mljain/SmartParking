@@ -21,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -74,6 +75,7 @@ public class MapsActivity extends FragmentActivity {
                 spot.setQuantity(14);
                 spot.setPrice(14.00);
                 */
+
                 spot = parkingList.get(marker.getTitle());
                 showDialog(MapsActivity.this, spot);
                 return false;
@@ -89,33 +91,33 @@ public class MapsActivity extends FragmentActivity {
         }
         if (ob!=null && ob.size() > 0) {
             // IS INSTALLED ON DEVICE..!!!
+
+            ParkingSpot sp;
             for (ParseObject mediObject : ob) {
                 String Longitude = mediObject.get("Longitude").toString();
                 String Latitude = mediObject.get("Latitude").toString();
                 double longi = Double.parseDouble(Longitude);
                 double lati = Double.parseDouble(Latitude);
-                ParkingSpot sp = new ParkingSpot();
+                sp = new ParkingSpot();
                 sp.setName(mediObject.get("Name").toString());
                 sp.setLatitude(lati);
                 sp.setLongitude(longi);
                 sp.setQuantity(Integer.parseInt(mediObject.get("quantity").toString()));
                 sp.setPriceDesc(mediObject.get("Cost").toString());
+                sp.setImageUrl(mediObject.get("garageImage").toString());
+
                 parkingList.put(sp.getName(), sp);
-                    Log.d("score", Longitude);
-                    Log.d("score", Latitude);
-                float Rand = (float) (Math.random() * (360));
-                if(mediObject.get("status").toString().equals("free")) {
-                    mMap.addMarker(new MarkerOptions().draggable(true)
-                            .position(new LatLng(lati, longi)).icon(BitmapDescriptorFactory.defaultMarker(120.0f))
-                            .title(sp.getName()));
 
+                BitmapDescriptor icon =  BitmapDescriptorFactory.defaultMarker(120.0f);
+                if(!mediObject.get("status").toString().equals("free"))
+                    icon =BitmapDescriptorFactory.defaultMarker(0.0f);
                     //mMap.setInfoWindowAdapter(new BalloonAdapter(getLayoutInflater()));
-                }else{
-                    mMap.addMarker(new MarkerOptions().draggable(true)
-                            .position(new LatLng(lati, longi)).icon(BitmapDescriptorFactory.defaultMarker(0.0f))
-                            .title(mediObject.getObjectId().toString()));
-                }
 
+
+                mMap.addMarker(new MarkerOptions().draggable(true)
+                        .position(new LatLng(lati, longi))
+                        .icon(icon)
+                        .title(sp.getName()));
             }
         }
 
@@ -140,9 +142,11 @@ public class MapsActivity extends FragmentActivity {
         parkingButton = (Button) parkingDialog.findViewById(R.id.book_button);
 
         //set variables
-        parkingName.setText(spot.getName());
+       // parkingName.setText(spot.getName());
+        parkingName.setVisibility(View.GONE);
+        parkingDialog.setTitle(spot.getName());
         parkingQuantity.setText("Spots Available: " + spot.getQuantity());
-        parkingPrice.setText("Price: $" + spot.getPrice());
+        parkingPrice.setText("Price: " + spot.getPriceDesc());
         imageURL = spot.getImageUrl();
 
         if(spot.getImageUrl() != null && !spot.getImageUrl().equalsIgnoreCase(""))
@@ -272,7 +276,7 @@ public class MapsActivity extends FragmentActivity {
 
         // Zoom in the Google Map
         mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
-        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
         LatLng myCoordinates = new LatLng(latitude, longitude);
         CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(myCoordinates, 12);
         mMap.animateCamera(yourLocation);
@@ -291,6 +295,7 @@ public class MapsActivity extends FragmentActivity {
      //   }
     }
 
+    /*
     private void addMarkerOnCurrentLocation(){
         Criteria criteria = new Criteria();
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -298,5 +303,5 @@ public class MapsActivity extends FragmentActivity {
         Location myLocation = locationManager.getLastKnownLocation(provider);
         LatLng latLng = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
 
-    }
+    }*/
 }
