@@ -3,6 +3,7 @@ package smartparking.smartparking;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.ui.IconGenerator;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -108,16 +110,29 @@ public class MapsActivity extends FragmentActivity {
 
                 parkingList.put(sp.getName(), sp);
 
-                BitmapDescriptor icon =  BitmapDescriptorFactory.defaultMarker(120.0f);
-                if(!mediObject.get("status").toString().equals("free"))
-                    icon =BitmapDescriptorFactory.defaultMarker(0.0f);
-                    //mMap.setInfoWindowAdapter(new BalloonAdapter(getLayoutInflater()));
 
 
-                mMap.addMarker(new MarkerOptions().draggable(true)
-                        .position(new LatLng(lati, longi))
-                        .icon(icon)
-                        .title(sp.getName()));
+
+
+                if (!mediObject.get("status").toString().equals("free")) {
+                    IconGenerator factory = new IconGenerator(this);
+                    factory.setColor(IconGenerator.STYLE_RED);
+                    factory.setStyle(IconGenerator.STYLE_RED);
+                    Bitmap icon =factory.makeIcon(mediObject.get("Cost").toString());
+                    mMap.addMarker(new MarkerOptions().draggable(true)
+                            .position(new LatLng(lati, longi))
+                            .icon(BitmapDescriptorFactory.fromBitmap(icon))
+                            .title(sp.getName()));
+                } else {
+                    IconGenerator factory = new IconGenerator(this);
+                    factory.setColor(IconGenerator.STYLE_GREEN);
+                    factory.setStyle(IconGenerator.STYLE_GREEN);
+                    Bitmap icon =factory.makeIcon(mediObject.get("Cost").toString());
+                    mMap.addMarker(new MarkerOptions().draggable(true)
+                            .position(new LatLng(lati, longi))
+                            .icon(BitmapDescriptorFactory.fromBitmap(icon))
+                            .title(sp.getName()));
+                }
             }
         }
 
