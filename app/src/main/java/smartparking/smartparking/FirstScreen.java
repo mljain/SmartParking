@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
@@ -47,22 +48,22 @@ public class FirstScreen extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Parse.enableLocalDatastore(this);
+        //Parse.enableLocalDatastore(this);
         // Enable Local Datastore.
        // Parse.enableLocalDatastore(this);
 
-        Parse.initialize(this, "", "");
+        Parse.initialize(this, "T4vmGgGrUNaxjyfT36nnkbVGE2hNc1JsEOwltLLa", "dm8dlVWqKGZVfIfMrqJB7hozH0ToNkSrO84C9I8c");
        // ParseInstallation.getCurrentInstallation().saveInBackground();
         setContentView(R.layout.activity_first_screen);
-        findParking = (Button)(findViewById(R.id.findParking));
+      //  findParking = (Button)(findViewById(R.id.findParking));
         releaseParking=(Button)(findViewById(R.id.releaseParking));
-        findParking.setOnClickListener(new View.OnClickListener() {
+     /*   findParking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent findParkingActivity = new Intent(FirstScreen.this, MapsActivity.class);
                 startActivity(findParkingActivity);
             }
-        });
+        });*/
 
         fpimgButton = (ImageButton) (findViewById(R.id.findParkingImageButton));
         fpimgButton.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +121,17 @@ public class FirstScreen extends Activity {
         Intent first_intent = getIntent();
         if(first_intent != null && first_intent.getAction().equals("android.nfc.action.NDEF_DISCOVERED"))
             onNewIntent(first_intent);
+
+        SlidingMenu menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.LEFT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        // menu.setShadowWidthRes(R.dimen.shadow_width);
+        // menu.setShadowDrawable(R.drawable.shadow);
+        // menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        menu.setFadeDegree(0.35f);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
+       // menu.setMenu(R.layout.);
+
     }
 
     public void learnParking(View v) {
