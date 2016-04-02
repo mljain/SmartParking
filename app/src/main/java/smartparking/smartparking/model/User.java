@@ -1,11 +1,15 @@
 package smartparking.smartparking.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Parnit on 2/20/2016.
  */
-public class User {
+public class User  implements Serializable{
     private int id;
     private String firstName, lastName, email;
+    private boolean hasParking;
+    private ParkingSpot parkingSpot;
 
     public User(){
 
@@ -16,6 +20,7 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        hasParking = false;
     }
 
     public void setId(int id){
@@ -49,4 +54,21 @@ public class User {
     public String getEmail(){
         return email;
     }
+
+    private boolean hasParking(){ return hasParking; }
+
+    private void setParkingSpot(ParkingSpot spot){
+        parkingSpot = spot;
+        hasParking = true;
+    }
+
+    public ParkingSpot getParkingSpot() {
+       return  parkingSpot ;
+    }
+
+    public void releaseParking(){
+        parkingSpot = null;
+        hasParking = false;
+    }
+
 }

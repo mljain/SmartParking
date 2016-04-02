@@ -1,12 +1,17 @@
 package smartparking.smartparking.model;
 
+import java.io.Serializable;
+import java.util.Date;
+
 /**
  * Created by Parnit on 2/20/2016.
  */
-public class ParkingSpot {
+public class ParkingSpot implements Serializable {
     private double latitude, longitude, price;
     private int quantity;
     private String name, imageUrl, priceDesc;
+    private boolean isBooked;
+    private Date reserveStartTime;
 
 
     public  ParkingSpot(){
@@ -68,5 +73,23 @@ public class ParkingSpot {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    private void setBooked(){
+        isBooked = true;
+        reserveStartTime = new Date();
+    }
+
+    public boolean isBooked(){
+        return isBooked;
+    }
+
+    public void releaseBooking(){
+        isBooked = false;
+        reserveStartTime = null;
+    }
+
+    public Date getReserveStartTime(){
+        return reserveStartTime;
     }
 }
