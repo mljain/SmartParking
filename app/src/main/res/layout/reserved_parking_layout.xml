@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/accent_material_dark"
+    tools:context="smartparking.smartparking.FirstScreen"
+    android:weightSum="1">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/parking"
+        android:layout_weight="0.84" />
+
+    <TextView
+        android:id="@+id/parking_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Parking Name"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price: "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This parking spot is available "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+
+    <Button
+        android:id="@+id/releaseParking"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Release Parking"
+        android:layout_gravity="bottom"/>
+
+</LinearLayout>

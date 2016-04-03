@@ -75,7 +75,7 @@ public class ParkingSpot implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    private void setBooked(){
+    public void setBooked(){
         isBooked = true;
         reserveStartTime = new Date();
     }

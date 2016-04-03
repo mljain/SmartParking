@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import smartparking.smartparking.model.ParkingSpot;
+import smartparking.smartparking.util.AppConstants;
 import smartparking.smartparking.util.ImageDownloader;
 
 public class MapsActivity extends FragmentActivity {
@@ -138,7 +139,7 @@ public class MapsActivity extends FragmentActivity {
 
     }
 
-    public void showDialog(Context context, ParkingSpot spot){
+    public void showDialog(Context context, final ParkingSpot spot){
         parkingDialog = new Dialog(context);
         TextView parkingName, parkingQuantity, parkingPrice;
         ImageView parkingImage;
@@ -171,6 +172,11 @@ public class MapsActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MapsActivity.this, "Spot Booked",Toast.LENGTH_SHORT).show();
+                spot.setBooked();
+
+                Intent intent = new Intent(MapsActivity.this, ParkingMarkerActivity.class);
+                intent.putExtra(AppConstants.SPOT, spot);
+                startActivity(intent);
             }
         });
 
