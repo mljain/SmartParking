@@ -21,6 +21,9 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import smartparking.smartparking.model.ParkingSpot;
+import smartparking.smartparking.util.AppConstants;
+
 
 public class ParkingMarkerActivity extends Activity {
     private Button saveParking;
@@ -31,6 +34,7 @@ public class ParkingMarkerActivity extends Activity {
     private ParseObject obj;
     private TextView price;
     private TextView text1;
+    private ParkingSpot spot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,11 @@ public class ParkingMarkerActivity extends Activity {
         id = getIntent().getExtras().getString("id");
         title = getIntent().getExtras().getString("title");
 
+        //
+        spot = (ParkingSpot) getIntent().getSerializableExtra(AppConstants.SPOT);
+        title = spot.getName();
+
+        //
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("AvailableParking");
         try {
             obj = query.get(title);
