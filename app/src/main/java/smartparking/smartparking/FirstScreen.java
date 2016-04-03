@@ -37,7 +37,7 @@ import java.util.List;
 public class FirstScreen extends Activity {
     double latitude, longitude;
     String longiStr, latiStr;
-    private Button findParking,releaseParking,saveParking;
+    private Button findParking,releaseParking,saveParking,paymentButton;
     private ImageButton fpimgButton;
 
     private NfcAdapter mNfcAdapter;
@@ -60,6 +60,7 @@ public class FirstScreen extends Activity {
                 startActivity(findParkingActivity);
             }
         });*/
+        paymentButton=(Button)(findViewById(R.id.paymentButton));
 
         fpimgButton = (ImageButton) (findViewById(R.id.findParkingImageButton));
         fpimgButton.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +71,13 @@ public class FirstScreen extends Activity {
             }
         });
 
+        paymentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent paymentActivity = new Intent(FirstScreen.this, PaymentActivity.class);
+                startActivity(paymentActivity);
+            }
+        });
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 

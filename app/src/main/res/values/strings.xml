@@ -17,6 +17,9 @@
     <string name="title_activity_ble">BleActivity</string>
     <string name="title_activity_learn_parking">LearnParkingActivity</string>
     <string name="title_activity_emotion_main">EmotionMainActivity</string>
+    <string name="title_activity_payment">Payment</string>
+    <string name="scan_button_text">Scan Card</string>
+
     <string name="search">search</string>
     <string name="flush">flush</string>
     <string name="book_parking">Book Parking</string>
