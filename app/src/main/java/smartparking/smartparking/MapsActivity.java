@@ -1,5 +1,6 @@
 package smartparking.smartparking;
 
+import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -49,7 +50,9 @@ public class MapsActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getActionBar();
+        if(actionBar!=null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
@@ -116,8 +119,8 @@ public class MapsActivity extends FragmentActivity {
 
                 if (!mediObject.get("status").toString().equals("free")) {
                     IconGenerator factory = new IconGenerator(this);
-                    factory.setColor(IconGenerator.STYLE_RED);
                     factory.setStyle(IconGenerator.STYLE_RED);
+                    factory.setBackground(getResources().getDrawable( R.drawable.parkme1 ));
                     Bitmap icon =factory.makeIcon(mediObject.get("Cost").toString());
                     mMap.addMarker(new MarkerOptions().draggable(true)
                             .position(new LatLng(lati, longi))
@@ -125,7 +128,6 @@ public class MapsActivity extends FragmentActivity {
                             .title(sp.getName()));
                 } else {
                     IconGenerator factory = new IconGenerator(this);
-                    factory.setColor(IconGenerator.STYLE_GREEN);
                     factory.setStyle(IconGenerator.STYLE_GREEN);
                     Bitmap icon =factory.makeIcon(mediObject.get("Cost").toString());
                     mMap.addMarker(new MarkerOptions().draggable(true)

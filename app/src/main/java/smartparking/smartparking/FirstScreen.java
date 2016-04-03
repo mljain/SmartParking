@@ -49,7 +49,6 @@ public class FirstScreen extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Parse.initialize(this, "", "");
        // ParseInstallation.getCurrentInstallation().saveInBackground();
         setContentView(R.layout.activity_first_screen);
       //  findParking = (Button)(findViewById(R.id.findParking));
@@ -115,9 +114,9 @@ public class FirstScreen extends Activity {
 
         mNFCTechLists = new String[][] { new String[] { NfcF.class.getName() } };
 
-        Intent first_intent = getIntent();
+     /*   Intent first_intent = getIntent();
         if(first_intent != null && first_intent.getAction().equals("android.nfc.action.NDEF_DISCOVERED"))
-            onNewIntent(first_intent);
+            onNewIntent(first_intent); */
 
         SlidingMenu menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
