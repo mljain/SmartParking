@@ -6,4 +6,6 @@ package smartparking.smartparking.util;
 public class AppConstants {
 
     public static String SPOT = "spot";
+    public static String USER = "user";
+    public static String OBJECT_ID = "objectId";
 }

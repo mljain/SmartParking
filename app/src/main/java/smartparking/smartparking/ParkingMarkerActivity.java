@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,37 +23,44 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import smartparking.smartparking.model.ParkingSpot;
+import smartparking.smartparking.model.User;
 import smartparking.smartparking.util.AppConstants;
+import smartparking.smartparking.util.ImageDownloader;
 
 
 public class ParkingMarkerActivity extends Activity {
-    private Button saveParking;
-    private Button releaseParking;
     private LatLng latLng;
     private String id;
-    private String title;
-    private ParseObject obj;
-    private TextView price;
-    private TextView text1;
+    private String spot_name;
+    private TextView parking_name, priceText, descText;
+    private ImageView parkingImage;
+    private ImageDownloader imageDownloader;
     private ParkingSpot spot;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_parking_marker2);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        saveParking = (Button) (findViewById(R.id.saveParkingSlot));
-        releaseParking = (Button) (findViewById(R.id.releaseParking));
-        text1= (TextView) (findViewById(R.id.textView));
+        setContentView(R.layout.reserved_parking_layout);
+        //etActionBar().setDisplayHomeAsUpEnabled(true);
+        parking_name = (TextView) (findViewById(R.id.parking_name));
+        priceText = (TextView) (findViewById(R.id.price));
+        descText = (TextView) (findViewById(R.id.desc));
+        parkingImage = (ImageView) findViewById(R.id.parking_image);
 
-        latLng = (LatLng) getIntent().getExtras().get("position");
-        id = getIntent().getExtras().getString("id");
-        title = getIntent().getExtras().getString("title");
+        imageDownloader = new ImageDownloader();
 
-        //
         spot = (ParkingSpot) getIntent().getSerializableExtra(AppConstants.SPOT);
-        title = spot.getName();
+        user = (User) getIntent().getSerializableExtra(AppConstants.USER);
+        spot_name = spot.getName();
+        parking_name.setText(spot_name);
+        priceText.setText("Price: " + spot.getPriceDesc());
+        descText.setText("Parking Spot was reserved on " +  user.getReservationDate().toString());
 
+        if(spot.getImageUrl() != null && !spot.getImageUrl().equalsIgnoreCase(""))
+            imageDownloader.download(spot.getImageUrl(), parkingImage);
+
+/*
         //
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("AvailableParking");
         try {
@@ -109,7 +117,7 @@ public class ParkingMarkerActivity extends Activity {
                 // Toast.makeText(getApplicationContext(), "Parking freed", Toast.LENGTH_LONG).show();
             }
         });
-
+*/
     }
 
 

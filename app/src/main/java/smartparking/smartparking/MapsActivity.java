@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import smartparking.smartparking.model.ParkingSpot;
+import smartparking.smartparking.model.User;
 import smartparking.smartparking.util.AppConstants;
 import smartparking.smartparking.util.ImageDownloader;
 
@@ -47,9 +48,12 @@ public class MapsActivity extends FragmentActivity {
     private Dialog parkingDialog;
     private ImageDownloader imagedl;
     private HashMap<String, ParkingSpot> parkingList;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        user = (User) getIntent().getSerializableExtra(AppConstants.USER);
 
         ActionBar actionBar = getActionBar();
         if(actionBar!=null)
@@ -121,7 +125,7 @@ public class MapsActivity extends FragmentActivity {
                 if (!mediObject.get("status").toString().equals("free")) {
                     IconGenerator factory = new IconGenerator(this);
                     factory.setStyle(IconGenerator.STYLE_RED);
-                    factory.setBackground(getResources().getDrawable( R.drawable.parkme1 ));
+                    factory.setBackground(getResources().getDrawable(R.drawable.parkme1));
                     Bitmap icon =factory.makeIcon(mediObject.get("Cost").toString());
                     mMap.addMarker(new MarkerOptions().draggable(true)
                             .position(new LatLng(lati, longi))
@@ -146,7 +150,6 @@ public class MapsActivity extends FragmentActivity {
         TextView parkingName, parkingQuantity, parkingPrice;
         ImageView parkingImage;
         Button parkingButton;
-        String imageURL;
 
         //set layout view
         parkingDialog.setContentView(R.layout.parking_spot_view);
@@ -160,12 +163,10 @@ public class MapsActivity extends FragmentActivity {
         parkingButton = (Button) parkingDialog.findViewById(R.id.book_button);
 
         //set variables
-       // parkingName.setText(spot.getName());
-        parkingName.setVisibility(View.GONE);
         parkingDialog.setTitle(spot.getName());
+        parkingName.setText(spot.getName());
         parkingQuantity.setText("Spots Available: " + spot.getQuantity());
         parkingPrice.setText("Price: " + spot.getPriceDesc());
-        imageURL = spot.getImageUrl();
 
         if(spot.getImageUrl() != null && !spot.getImageUrl().equalsIgnoreCase(""))
             imagedl.download(spot.getImageUrl(), parkingImage);
@@ -175,8 +176,9 @@ public class MapsActivity extends FragmentActivity {
             public void onClick(View v) {
                 Toast.makeText(MapsActivity.this, "Spot Booked",Toast.LENGTH_SHORT).show();
                 spot.setBooked();
-
+                user.setParkingSpot(spot);
                 Intent intent = new Intent(MapsActivity.this, ParkingMarkerActivity.class);
+                intent.putExtra(AppConstants.USER, user);
                 intent.putExtra(AppConstants.SPOT, spot);
                 startActivity(intent);
             }

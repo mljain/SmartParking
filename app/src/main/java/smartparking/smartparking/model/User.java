@@ -1,21 +1,27 @@
 package smartparking.smartparking.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by Parnit on 2/20/2016.
  */
 public class User  implements Serializable{
-    private int id;
+    private String id;
+
+
+
+    private String parkingID;
     private String firstName, lastName, email;
     private boolean hasParking;
     private ParkingSpot parkingSpot;
+    private Date reservationDate;
 
     public User(){
 
     }
 
-    public User(int id, String firstName, String lastName, String email){
+    public User(String id, String firstName, String lastName, String email){
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -23,11 +29,11 @@ public class User  implements Serializable{
         hasParking = false;
     }
 
-    public void setId(int id){
+    public void setId(String id){
         this.id = id;
     }
 
-    public int getId(){
+    public String getId(){
         return id;
     }
 
@@ -55,11 +61,16 @@ public class User  implements Serializable{
         return email;
     }
 
-    private boolean hasParking(){ return hasParking; }
+    public boolean hasParking(){ return hasParking; }
 
-    private void setParkingSpot(ParkingSpot spot){
+    public void setParkingSpot(ParkingSpot spot){
         parkingSpot = spot;
         hasParking = true;
+        reservationDate = new Date();
+    }
+
+    public void setHasParking(boolean status){
+        hasParking = status;
     }
 
     public ParkingSpot getParkingSpot() {
@@ -69,6 +80,22 @@ public class User  implements Serializable{
     public void releaseParking(){
         parkingSpot = null;
         hasParking = false;
+    }
+
+    public String getParkingID() {
+        return parkingID;
+    }
+
+    public void setParkingID(String parkingID) {
+        this.parkingID = parkingID;
+    }
+
+    public Date getReservationDate() {
+        return reservationDate;
+    }
+
+    public void setReservationDate(Date reservationDate) {
+        this.reservationDate = reservationDate;
     }
 
 }

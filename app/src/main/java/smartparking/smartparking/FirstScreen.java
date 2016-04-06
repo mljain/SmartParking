@@ -28,10 +28,14 @@ import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+
+import smartparking.smartparking.model.User;
+import smartparking.smartparking.util.AppConstants;
 
 
 public class FirstScreen extends Activity {
@@ -39,6 +43,7 @@ public class FirstScreen extends Activity {
     String longiStr, latiStr;
     private Button findParking,releaseParking,saveParking,paymentButton;
     private ImageButton fpimgButton;
+    private User user;
 
     private NfcAdapter mNfcAdapter;
     private PendingIntent mPendingIntent;
@@ -48,6 +53,8 @@ public class FirstScreen extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        user = (User) getIntent().getSerializableExtra(AppConstants.USER);
 
        // ParseInstallation.getCurrentInstallation().saveInBackground();
         setContentView(R.layout.activity_first_screen);
@@ -62,11 +69,13 @@ public class FirstScreen extends Activity {
         });*/
         paymentButton=(Button)(findViewById(R.id.paymentButton));
 
+
         fpimgButton = (ImageButton) (findViewById(R.id.findParkingImageButton));
         fpimgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent findParkingActivity = new Intent(FirstScreen.this, MapsActivity.class);
+                findParkingActivity.putExtra(AppConstants.USER, user);
                 startActivity(findParkingActivity);
             }
         });
