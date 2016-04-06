@@ -11,6 +11,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.Date;
+
 import smartparking.smartparking.model.ParkingSpot;
 import smartparking.smartparking.model.User;
 import smartparking.smartparking.util.AppConstants;
@@ -41,7 +43,6 @@ public class DispatchActivity extends Activity {
         user = new User();
         user.setId(pu.getUsername());
         user.setHasParking((boolean) pu.get(AppConstants.HAS_PARKING));
-        Log.i("uname", user.hasParking() + "");
       }
 
       Intent intent;
@@ -64,6 +65,8 @@ public class DispatchActivity extends Activity {
             spot.setPrice(Double.parseDouble(temp.substring(1)));
             spot.setQuantity(Integer.parseInt(po.get("quantity").toString()));
             user.setParkingSpot(spot);
+            user.setReservationDate((Date) pu.get(AppConstants.RESERVATION_DATE));
+            Log.i("date-u", user.getReservationDate().toString());
           }
         }catch(ParseException e){
           Log.e("Error", e.getMessage());

@@ -58,8 +58,6 @@ public class ParkingMarkerActivity extends Activity {
 
         if( spot == null)
             spot = user.getParkingSpot();
-        Log.i("spot",user.getParkingSpot().getName()+"");
-        Log.i("spot",user.getParkingSpot().getPrice()+"");
 
 
         parking_name.setText(spot.getName());
@@ -78,12 +76,17 @@ public class ParkingMarkerActivity extends Activity {
                     ParseUser pu = ParseUser.getCurrentUser();
                     pu.put(AppConstants.HAS_PARKING, false);
                     pu.put(AppConstants.PARKING_ID, "");
+                    pu.remove(AppConstants.RESERVATION_DATE);
                     pu.save();
 
                     Toast.makeText(ParkingMarkerActivity.this, "Spot Released",Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(ParkingMarkerActivity.this, MapsActivity.class);
                     intent.putExtra(AppConstants.USER, user);
+                    user.setParkingSpot(null);
+                    user.setHasParking(false);
+                    user.setReservationDate(null);
+                    user.setParkingID("");
                     startActivity(intent);
                     finish();
                 }catch(ParseException e){

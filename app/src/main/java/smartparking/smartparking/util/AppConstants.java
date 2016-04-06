@@ -11,4 +11,5 @@ public class AppConstants {
     public  static String HAS_PARKING = "hasParking";
     public  static String PARKING_ID = "parkingId";
     public static String NAME = "Name";
+    public static String RESERVATION_DATE = "reservationDate";
 }

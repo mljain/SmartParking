@@ -35,6 +35,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -180,6 +181,7 @@ public class MapsActivity extends FragmentActivity {
                 spot.setBooked();
                 user.setParkingSpot(spot);
                 user.setParkingID(spot.getId());
+                user.setReservationDate(new Date());
                 Intent intent = new Intent(MapsActivity.this, ParkingMarkerActivity.class);
                 intent.putExtra(AppConstants.USER, user);
                 intent.putExtra(AppConstants.SPOT, spot);
@@ -188,6 +190,7 @@ public class MapsActivity extends FragmentActivity {
                     ParseUser pu = ParseUser.getCurrentUser();
                     pu.put(AppConstants.HAS_PARKING, true);
                     pu.put(AppConstants.PARKING_ID, spot.getName());
+                    pu.put(AppConstants.RESERVATION_DATE, user.getReservationDate());
                     pu.save();
                 }catch(ParseException e){
                     Log.e("Error", e.getMessage());
