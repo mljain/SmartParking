@@ -8,4 +8,7 @@ public class AppConstants {
     public static String SPOT = "spot";
     public static String USER = "user";
     public static String OBJECT_ID = "objectId";
+    public  static String HAS_PARKING = "hasParking";
+    public  static String PARKING_ID = "parkingId";
+    public static String NAME = "Name";
 }

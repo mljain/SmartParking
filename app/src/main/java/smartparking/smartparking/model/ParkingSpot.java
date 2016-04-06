@@ -9,8 +9,9 @@ import java.util.Date;
 public class ParkingSpot implements Serializable {
     private double latitude, longitude, price;
     private int quantity;
-    private String name, imageUrl, priceDesc;
+    private String name, imageUrl, priceDesc, id;
     private boolean isBooked;
+
     private Date reserveStartTime;
 
 
@@ -92,4 +93,14 @@ public class ParkingSpot implements Serializable {
     public Date getReserveStartTime(){
         return reserveStartTime;
     }
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 }

@@ -8,6 +8,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import smartparking.smartparking.model.ParkingSpot;
 import smartparking.smartparking.model.User;
@@ -31,7 +33,7 @@ import smartparking.smartparking.util.ImageDownloader;
 public class ParkingMarkerActivity extends Activity {
     private LatLng latLng;
     private String id;
-    private String spot_name;
+    private Button releaseButton;
     private TextView parking_name, priceText, descText;
     private ImageView parkingImage;
     private ImageDownloader imageDownloader;
@@ -47,77 +49,49 @@ public class ParkingMarkerActivity extends Activity {
         priceText = (TextView) (findViewById(R.id.price));
         descText = (TextView) (findViewById(R.id.desc));
         parkingImage = (ImageView) findViewById(R.id.parking_image);
+        releaseButton = (Button) findViewById(R.id.releaseParkingButton);
 
         imageDownloader = new ImageDownloader();
 
-        spot = (ParkingSpot) getIntent().getSerializableExtra(AppConstants.SPOT);
         user = (User) getIntent().getSerializableExtra(AppConstants.USER);
-        spot_name = spot.getName();
-        parking_name.setText(spot_name);
+        spot = (ParkingSpot) getIntent().getSerializableExtra(AppConstants.SPOT);
+
+        if( spot == null)
+            spot = user.getParkingSpot();
+        Log.i("spot",user.getParkingSpot().getName()+"");
+        Log.i("spot",user.getParkingSpot().getPrice()+"");
+
+
+        parking_name.setText(spot.getName());
         priceText.setText("Price: " + spot.getPriceDesc());
-        descText.setText("Parking Spot was reserved on " +  user.getReservationDate().toString());
+        descText.setText("Parking Spot was reserved on " + user.getReservationDate().toString());
 
         if(spot.getImageUrl() != null && !spot.getImageUrl().equalsIgnoreCase(""))
             imageDownloader.download(spot.getImageUrl(), parkingImage);
 
-/*
-        //
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("AvailableParking");
-        try {
-            obj = query.get(title);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        if(obj.get("status").toString().equals("booked")){
-            saveParking.setEnabled(false);
-            text1.setText("This parking is not available");
-        }
-        RatingBar rate_bar =  (RatingBar)findViewById(R.id.ratingBar1);
-        rate_bar.setRating(4.0f);
-        price = (TextView) (findViewById(R.id.price));
-        price.setText(obj.get("Cost").toString());
 
+        releaseButton.setOnClickListener(new View.OnClickListener() {
 
-        saveParking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                obj.put("isAvailable", false);
-                obj.put("status", "booked");
-                obj.saveInBackground();
-                Toast.makeText(getApplicationContext(), latLng.latitude + ""+latLng.longitude, Toast.LENGTH_LONG).show();
-                Toast.makeText(getApplicationContext(), "Parking Booked", Toast.LENGTH_LONG).show();
-                releaseParking.setEnabled(true);
-                saveParking.setEnabled(false);
-                text1.setText("This parking is not available");
+                try {
+                    ParseUser pu = ParseUser.getCurrentUser();
+                    pu.put(AppConstants.HAS_PARKING, false);
+                    pu.put(AppConstants.PARKING_ID, "");
+                    pu.save();
 
-                // ParseObject testObject = new ParseObject("AvailableParking");
-                // testObject.put("Longitude", longiStr);
-                // testObject.put("Latitude", latiStr);
-                // testObject.saveInBackground();
-                // Toast.makeText(getApplicationContext(), latitude + "", Toast.LENGTH_LONG).show();
-                // Toast.makeText(getApplicationContext(), "Parking freed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ParkingMarkerActivity.this, "Spot Released",Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(ParkingMarkerActivity.this, MapsActivity.class);
+                    intent.putExtra(AppConstants.USER, user);
+                    startActivity(intent);
+                    finish();
+                }catch(ParseException e){
+                    Log.e("Error", e.getMessage());
+                    e.printStackTrace();
+                }
             }
         });
-        releaseParking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                obj.put("isAvailable",true);
-                obj.put("status","free");
-                obj.saveInBackground();
-                Toast.makeText(getApplicationContext(), latLng.latitude + ""+latLng.longitude, Toast.LENGTH_LONG).show();
-                Toast.makeText(getApplicationContext(), "Parking Released", Toast.LENGTH_LONG).show();
-                releaseParking.setEnabled(false);
-                saveParking.setEnabled(true);
-                text1.setText("This parking is available");
-                // ParseObject testObject = new ParseObject("AvailableParking");
-                // testObject.put("Longitude", longiStr);
-                // testObject.put("Latitude", latiStr);
-                // testObject.saveInBackground();
-                // Toast.makeText(getApplicationContext(), latitude + "", Toast.LENGTH_LONG).show();
-                // Toast.makeText(getApplicationContext(), "Parking freed", Toast.LENGTH_LONG).show();
-            }
-        });
-*/
     }
 
 

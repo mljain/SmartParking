@@ -33,6 +33,7 @@ import com.google.maps.android.ui.IconGenerator;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.HashMap;
 import java.util.List;
@@ -115,6 +116,7 @@ public class MapsActivity extends FragmentActivity {
                 sp.setQuantity(Integer.parseInt(mediObject.get("quantity").toString()));
                 sp.setPriceDesc(mediObject.get("Cost").toString());
                 sp.setImageUrl(mediObject.get("garageImage").toString());
+                //sp.setId(mediObject.get(AppConstants.OBJECT_ID).toString());
 
                 parkingList.put(sp.getName(), sp);
 
@@ -177,10 +179,23 @@ public class MapsActivity extends FragmentActivity {
                 Toast.makeText(MapsActivity.this, "Spot Booked",Toast.LENGTH_SHORT).show();
                 spot.setBooked();
                 user.setParkingSpot(spot);
+                user.setParkingID(spot.getId());
                 Intent intent = new Intent(MapsActivity.this, ParkingMarkerActivity.class);
                 intent.putExtra(AppConstants.USER, user);
                 intent.putExtra(AppConstants.SPOT, spot);
+
+                try {
+                    ParseUser pu = ParseUser.getCurrentUser();
+                    pu.put(AppConstants.HAS_PARKING, true);
+                    pu.put(AppConstants.PARKING_ID, spot.getName());
+                    pu.save();
+                }catch(ParseException e){
+                    Log.e("Error", e.getMessage());
+                    e.printStackTrace();
+                }
+
                 startActivity(intent);
+                finish();
             }
         });
 

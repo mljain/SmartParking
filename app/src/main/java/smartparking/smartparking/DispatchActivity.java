@@ -40,16 +40,17 @@ public class DispatchActivity extends Activity {
       if(pu != null){
         user = new User();
         user.setId(pu.getUsername());
-        user.setHasParking((boolean) pu.get("hasParking"));
+        user.setHasParking((boolean) pu.get(AppConstants.HAS_PARKING));
         Log.i("uname", user.hasParking() + "");
       }
 
       Intent intent;
       if(user.hasParking()){
         intent = new Intent(this,ParkingMarkerActivity.class);
+        user.setParkingID((String) pu.get(AppConstants.PARKING_ID));
 
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("AvailableParking");
-        query.whereEqualTo(AppConstants.OBJECT_ID, user.getParkingID());
+        query.whereEqualTo(AppConstants.NAME, user.getParkingID());
         try {
           ParseObject po = query.getFirst();
 
@@ -57,13 +58,12 @@ public class DispatchActivity extends Activity {
             ParkingSpot spot = new ParkingSpot();
             spot.setName(po.get("Name").toString());
             spot.setImageUrl(po.get("garageImage").toString());
-            String p =po.get("Cost").toString();
-            String temp = p.split("//day")[0];
-            p = temp.split("$")[1];
-            spot.setPrice(Double.parseDouble(p));
+            String p = po.get("Cost").toString();
+            spot.setPriceDesc(p);
+            String temp = p.split("/day")[0];
+            spot.setPrice(Double.parseDouble(temp.substring(1)));
             spot.setQuantity(Integer.parseInt(po.get("quantity").toString()));
             user.setParkingSpot(spot);
-
           }
         }catch(ParseException e){
           Log.e("Error", e.getMessage());
