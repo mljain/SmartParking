@@ -24,6 +24,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.Date;
+
 import smartparking.smartparking.model.ParkingSpot;
 import smartparking.smartparking.model.User;
 import smartparking.smartparking.util.AppConstants;
@@ -81,12 +83,22 @@ public class ParkingMarkerActivity extends Activity {
 
                     Toast.makeText(ParkingMarkerActivity.this, "Spot Released",Toast.LENGTH_SHORT).show();
 
+                    Date currentDate = new Date();
+                    long timeInMilli = currentDate.getTime() - user.getReservationDate().getTime();
+                    int hours =  (int) timeInMilli / AppConstants.HOURS_IN_MILLI;
+                    int minutes =  (int) timeInMilli / AppConstants.MINUTES_IN_MILLI;
+
+                    double cost = (hours  + minutes/AppConstants.SIXTY) * spot.getPrice();
+                    Log.i("cost", cost +"");
+
+
                     Intent intent = new Intent(ParkingMarkerActivity.this, MapsActivity.class);
                     intent.putExtra(AppConstants.USER, user);
                     user.setParkingSpot(null);
                     user.setHasParking(false);
                     user.setReservationDate(null);
                     user.setParkingID("");
+
                     startActivity(intent);
                     finish();
                 }catch(ParseException e){

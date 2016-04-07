@@ -12,4 +12,8 @@ public class AppConstants {
     public  static String PARKING_ID = "parkingId";
     public static String NAME = "Name";
     public static String RESERVATION_DATE = "reservationDate";
+
+    public static int HOURS_IN_MILLI = 3600000;
+    public static int MINUTES_IN_MILLI = 60000;
+    public static double SIXTY = 60.0;
 }
