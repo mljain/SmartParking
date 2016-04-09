@@ -20,8 +20,104 @@
         android:layout_height="wrap_content"
         android:text="Scan Result Text"
         android:id="@+id/resultTextView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/scanButton"
+        android:layout_marginBottom="75dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Name on Card:"
+        android:id="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/resultTextView"
+        android:layout_alignBottom="@+id/cardName" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/cardName"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/textView2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Card #: "
+        android:id="@+id/textView3"
+        android:layout_below="@+id/textView2"
+        android:layout_toStartOf="@+id/cardName" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cardNumber"
+        android:layout_below="@+id/textView2"
+        android:layout_alignEnd="@+id/cardName"
+        android:layout_alignStart="@+id/scanButton" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Expiry:"
+        android:id="@+id/textView4"
+        android:layout_below="@+id/cardNumber"
+        android:layout_toStartOf="@+id/cardNumber" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/expiryDate"
+        android:layout_below="@+id/cardNumber"
+        android:layout_alignEnd="@+id/resultTextView"
+        android:layout_toEndOf="@+id/textView4"
+        android:text="mm/yy" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Amount:"
+        android:id="@+id/textView5"
         android:layout_above="@+id/scanButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="64dp" />
+        android:layout_alignEnd="@+id/textView3" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/amount"
+        android:layout_above="@+id/scanButton"
+        android:layout_alignEnd="@+id/expiryDate"
+        android:layout_toEndOf="@+id/textView5" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="CVV:"
+        android:id="@+id/textView6"
+        android:layout_below="@+id/expiryDate"
+        android:layout_alignStart="@+id/textView5" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cvv"
+        android:layout_below="@+id/expiryDate"
+        android:layout_alignEnd="@+id/expiryDate"
+        android:layout_toEndOf="@+id/textView3" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pay"
+        android:id="@+id/pay"
+        android:layout_below="@+id/amount"
+        android:layout_alignStart="@+id/textView2" />
 
 </RelativeLayout>
