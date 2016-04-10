@@ -3,6 +3,7 @@ package smartparking.smartparking;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,10 @@ import io.card.payment.CreditCard;
 import smartparking.smartparking.model.User;
 import smartparking.smartparking.util.AppConstants;
 
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+
 public class PaymentActivity extends ActionBarActivity {
 
     final String TAG = getClass().getName();
@@ -24,12 +29,15 @@ public class PaymentActivity extends ActionBarActivity {
     private int MY_SCAN_REQUEST_CODE = 100; // arbitrary int
     private CreditCard scanResult;
     private User user;
+    private double amount;
+
+    private static double amountDefault = 10.0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         user = (User) getIntent().getSerializableExtra(AppConstants.USER);
-
+        amount = (double) getIntent().getDoubleExtra(AppConstants.USER, amountDefault);
         setContentView(R.layout.activity_payment);
         resultTextView = (TextView) findViewById(R.id.resultTextView);
         scanButton = (Button) findViewById(R.id.scanButton);
@@ -39,6 +47,7 @@ public class PaymentActivity extends ActionBarActivity {
         expiryDate = (EditText) findViewById(R.id.expiryDate);
         CVVNumber = (EditText) findViewById(R.id.cvv);
         payment = (EditText) findViewById(R.id.amount);
+        payment.setText(String.valueOf(amount));
 
         resultTextView.setText("card.io library version: " + CardIOActivity.sdkVersion() + "\nBuilt: " + CardIOActivity.sdkBuildDate());
 
@@ -47,12 +56,27 @@ public class PaymentActivity extends ActionBarActivity {
             public void onClick(View v) {
                 String resultStr;
                 if(scanResult != null) {
-                    resultStr = "Payment Successfull. Thank you.";
+                    resultStr = "Payment Successful. Thank you.";
+                    try {
+                        ParseUser pu = ParseUser.getCurrentUser();
+                        ParseObject paymentDetails = new ParseObject("Payment");
+                        paymentDetails.put("name", cardName.getText().toString());
+                        paymentDetails.put("cardNumber", cardNumber.getText().toString());
+                        paymentDetails.put("expiryDate", expiryDate.getText().toString());
+                        paymentDetails.put("cvv", CVVNumber.getText().toString());
+                        paymentDetails.put("amount", Double.parseDouble(payment.getText().toString()));
+                        paymentDetails.put("userId", user.getId());
+                        paymentDetails.save();
+                    }catch(ParseException e){
+                        Log.e("Error", e.getMessage());
+                        e.printStackTrace();
+                    }
                     resultTextView.setText(resultStr);
                     Toast.makeText(PaymentActivity.this, resultStr, Toast.LENGTH_LONG).show();
-                    Intent findParkingActivity = new Intent(PaymentActivity.this, FirstScreen.class);
+                    Intent findParkingActivity = new Intent(PaymentActivity.this, MapsActivity.class);
                     findParkingActivity.putExtra(AppConstants.USER, user);
                     startActivity(findParkingActivity);
+                    finish();
                 }else{
                     resultStr = "Please provide payment details.";
                     resultTextView.setText(resultStr);

@@ -84,6 +84,7 @@ public class FirstScreen extends Activity {
             @Override
             public void onClick(View v) {
                 Intent paymentActivity = new Intent(FirstScreen.this, PaymentActivity.class);
+                paymentActivity.putExtra(AppConstants.USER, user);
                 startActivity(paymentActivity);
             }
         });

@@ -89,17 +89,21 @@ public class ParkingMarkerActivity extends Activity {
                     int minutes =  (int) timeInMilli / AppConstants.MINUTES_IN_MILLI;
 
                     double cost = (hours  + minutes/AppConstants.SIXTY) * spot.getPrice();
-                    Log.i("cost", cost +"");
+                    Log.i("cost", cost + "");
 
+                    Intent paymentActivity = new Intent(ParkingMarkerActivity.this, PaymentActivity.class);
+                    paymentActivity.putExtra(AppConstants.USER, user);
+                    paymentActivity.putExtra(AppConstants.AMOUNT, cost);
+                    //startActivity(paymentActivity);
 
-                    Intent intent = new Intent(ParkingMarkerActivity.this, MapsActivity.class);
-                    intent.putExtra(AppConstants.USER, user);
+                    //Intent intent = new Intent(ParkingMarkerActivity.this, MapsActivity.class);
+                    //intent.putExtra(AppConstants.USER, user);
                     user.setParkingSpot(null);
                     user.setHasParking(false);
                     user.setReservationDate(null);
                     user.setParkingID("");
-
-                    startActivity(intent);
+                    startActivity(paymentActivity);
+                    //startActivity(intent);
                     finish();
                 }catch(ParseException e){
                     Log.e("Error", e.getMessage());
