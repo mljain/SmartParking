@@ -81,15 +81,14 @@ public class ParkingMarkerActivity extends Activity {
                     pu.remove(AppConstants.RESERVATION_DATE);
                     pu.save();
 
-                    Toast.makeText(ParkingMarkerActivity.this, "Spot Released",Toast.LENGTH_SHORT).show();
-
                     Date currentDate = new Date();
                     long timeInMilli = currentDate.getTime() - user.getReservationDate().getTime();
                     int hours =  (int) timeInMilli / AppConstants.HOURS_IN_MILLI;
                     int minutes =  (int) timeInMilli / AppConstants.MINUTES_IN_MILLI;
 
                     double cost = (hours  + minutes/AppConstants.SIXTY) * spot.getPrice();
-                    Log.i("cost", cost + "");
+                    //Log.i("cost", cost + "");
+                    //Toast.makeText(ParkingMarkerActivity.this, "Spot Released. Total cost: " + cost,Toast.LENGTH_SHORT).show();
 
                     Intent paymentActivity = new Intent(ParkingMarkerActivity.this, PaymentActivity.class);
                     paymentActivity.putExtra(AppConstants.USER, user);

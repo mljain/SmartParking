@@ -41,7 +41,7 @@ import smartparking.smartparking.util.AppConstants;
 public class FirstScreen extends Activity {
     double latitude, longitude;
     String longiStr, latiStr;
-    private Button findParking,releaseParking,saveParking,paymentButton;
+    private Button findParking,releaseParking,saveParking; //,paymentButton;
     private ImageButton fpimgButton;
     private User user;
 
@@ -67,7 +67,8 @@ public class FirstScreen extends Activity {
                 startActivity(findParkingActivity);
             }
         });*/
-        paymentButton=(Button)(findViewById(R.id.paymentButton));
+
+      //  paymentButton=(Button)(findViewById(R.id.paymentButton));
 
 
         fpimgButton = (ImageButton) (findViewById(R.id.findParkingImageButton));
@@ -80,6 +81,7 @@ public class FirstScreen extends Activity {
             }
         });
 
+        /*
         paymentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,7 +89,7 @@ public class FirstScreen extends Activity {
                 paymentActivity.putExtra(AppConstants.USER, user);
                 startActivity(paymentActivity);
             }
-        });
+        });*/
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
