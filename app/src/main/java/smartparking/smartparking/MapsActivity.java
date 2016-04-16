@@ -148,6 +148,14 @@ public class MapsActivity extends FragmentActivity {
 
     }
 
+    @Override
+    public void onPause(){
+        if(parkingDialog != null && parkingDialog.isShowing())
+            parkingDialog.dismiss();
+
+        super.onPause();
+    }
+
     public void showDialog(Context context, final ParkingSpot spot){
         parkingDialog = new Dialog(context);
         TextView parkingName, parkingQuantity, parkingPrice;
@@ -156,7 +164,6 @@ public class MapsActivity extends FragmentActivity {
 
         //set layout view
         parkingDialog.setContentView(R.layout.parking_spot_view);
-        //parkingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         //Initialize your widgets from layout here
         parkingName = (TextView) parkingDialog.findViewById(R.id.parking_name);

@@ -20,20 +20,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-
-import com.google.android.gms.maps.model.LatLng;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import smartparking.smartparking.model.ParkingSpot;
 import smartparking.smartparking.model.User;
 import smartparking.smartparking.util.AppConstants;
 
@@ -56,20 +54,8 @@ public class FirstScreen extends Activity {
 
         user = (User) getIntent().getSerializableExtra(AppConstants.USER);
 
-       // ParseInstallation.getCurrentInstallation().saveInBackground();
         setContentView(R.layout.activity_first_screen);
-      //  findParking = (Button)(findViewById(R.id.findParking));
         releaseParking=(Button)(findViewById(R.id.releaseParking));
-     /*   findParking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent findParkingActivity = new Intent(FirstScreen.this, MapsActivity.class);
-                startActivity(findParkingActivity);
-            }
-        });*/
-
-      //  paymentButton=(Button)(findViewById(R.id.paymentButton));
-
 
         fpimgButton = (ImageButton) (findViewById(R.id.findParkingImageButton));
         fpimgButton.setOnClickListener(new View.OnClickListener() {
@@ -81,15 +67,6 @@ public class FirstScreen extends Activity {
             }
         });
 
-        /*
-        paymentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent paymentActivity = new Intent(FirstScreen.this, PaymentActivity.class);
-                paymentActivity.putExtra(AppConstants.USER, user);
-                startActivity(paymentActivity);
-            }
-        });*/
 
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -141,12 +118,8 @@ public class FirstScreen extends Activity {
         SlidingMenu menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        // menu.setShadowWidthRes(R.dimen.shadow_width);
-        // menu.setShadowDrawable(R.drawable.shadow);
-        // menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         menu.setFadeDegree(0.35f);
         menu.attachToActivity(this, SlidingMenu.SLIDING_CONTENT);
-       // menu.setMenu(R.layout.);
 
     }
 
@@ -200,11 +173,41 @@ public class FirstScreen extends Activity {
 
                     Log.i(" po", po.getObjectId());
                     if( po.getObjectId().equalsIgnoreCase(nfc_data)){
-                        Intent releaseParkingActivity = new Intent(FirstScreen.this, ParkingMarkerActivity.class);
-                        releaseParkingActivity.putExtra("id", nfc_data);
-                        releaseParkingActivity.putExtra("position", new LatLng(latitude, longitude));
-                        releaseParkingActivity.putExtra("title",nfc_data);
-                        startActivity(releaseParkingActivity);
+
+                        String Longitude = po.get("Longitude").toString();
+                        String Latitude = po.get("Latitude").toString();
+                        double longi = Double.parseDouble(Longitude);
+                        double lati = Double.parseDouble(Latitude);
+                        ParkingSpot sp = new ParkingSpot();
+                        sp.setName(po.get("Name").toString());
+                        sp.setLatitude(lati);
+                        sp.setLongitude(longi);
+                        sp.setQuantity(Integer.parseInt(po.get("quantity").toString()));
+                        sp.setPriceDesc(po.get("Cost").toString());
+                        sp.setImageUrl(po.get("garageImage").toString());
+
+
+                        sp.setBooked();
+                        user.setParkingSpot(sp);
+                        user.setParkingID(sp.getId());
+                        user.setReservationDate(new Date());
+                        Intent it = new Intent(FirstScreen.this, ParkingMarkerActivity.class);
+                        it.putExtra(AppConstants.USER, user);
+                        it.putExtra(AppConstants.SPOT, sp);
+
+                        try {
+                            ParseUser pu = ParseUser.getCurrentUser();
+                            pu.put(AppConstants.HAS_PARKING, true);
+                            pu.put(AppConstants.PARKING_ID, sp.getName());
+                            pu.put(AppConstants.RESERVATION_DATE, user.getReservationDate());
+                            pu.save();
+                        }catch(ParseException e){
+                            Log.e("Error", e.getMessage());
+                            e.printStackTrace();
+                        }
+
+                        startActivity(it);
+                        finish();
                         break;
                     }
                 }
